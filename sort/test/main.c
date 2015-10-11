@@ -46,5 +46,18 @@ int main() {
 	quick_sort(out_arr, sizeof(out_arr)/sizeof(out_arr[0]));
 	printf("after sorting, the array is:\n");
 	print_arr(out_arr, sizeof(out_arr)/sizeof(out_arr[0]));
+
+	printf("\n2. test insert sort\n");
+	memcpy(out_arr, init_arr, sizeof(init_arr));
+	insert_sort(out_arr, sizeof(out_arr)/sizeof(out_arr[0]));
+	printf("after sorting, the array is:\n");
+	print_arr(out_arr, sizeof(out_arr)/sizeof(out_arr[0]));
+
+	printf("\n3. test bubble sort\n");
+	memcpy(out_arr, init_arr, sizeof(init_arr));
+	bubble_sort(out_arr, sizeof(out_arr)/sizeof(out_arr[0]));
+	printf("after sorting, the array is:\n");
+	print_arr(out_arr, sizeof(out_arr)/sizeof(out_arr[0]));
+
 	return 0;
 }

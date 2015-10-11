@@ -4,12 +4,23 @@
 #include <string.h>
 #include "sort.h"
 
+#define SWAP_INT(a, b) do {a = a ^ b; b = a ^ b; a = a ^ b;} while(0)
+#define CHECK_ARGS() \
+	if (pArr == NULL || num <= 1) {			\
+		printf("Error: Bad arguments\n");	\
+		return -1;				\
+	}						\
+							\
+	if (num == 2) {					\
+		sort_2_num(pArr);			\
+		return 0;				\
+	}
+
+
 // the inline function to sort arrays length = 2
 static inline void sort_2_num(int *pArr) {
 	if (pArr[0] > pArr[1]) {
-		int temp = pArr[0];
-		pArr[0] = pArr[1];
-		pArr[1] = temp;
+		SWAP_INT(pArr[0], pArr[1]);
 	}
 }
 
@@ -69,10 +80,7 @@ static void quick_sort_internal(int *pArr, int num) {
 }
 
 int quick_sort(int *pArr, int num) {
-	if (pArr == NULL || num <= 1) {
-		printf("Error: Bad arguments\n");
-		return -1;
-	}
+	CHECK_ARGS();
 
 	srand(time(NULL));
 	quick_sort_internal(pArr, num);
@@ -80,3 +88,44 @@ int quick_sort(int *pArr, int num) {
 	return 0;
 }
 
+int insert_sort(int *pArr, int num) {
+	int i;
+
+	CHECK_ARGS();
+
+	for (i = 1; i < num; i++) {
+		int j = i;
+		int val=pArr[i];
+		while(j > 0) {
+			if (pArr[j-1] > val) {
+				pArr[j] = pArr[j-1];
+				j--;
+			} else {
+				pArr[j] = val;
+				break;
+			}
+		}
+
+		if (j == 0) {
+			pArr[0] = val;
+		}
+	}
+	return 0;
+}
+
+int bubble_sort(int *pArr, int num) {
+	int i,j;
+
+	CHECK_ARGS();
+
+	j = num - 1;
+	do {
+		for(i = 0; i < j; i++) {
+			if (pArr[i] > pArr[i+1]) {
+				SWAP_INT(pArr[i], pArr[i+1]);
+			}
+		}
+	} while(--j > 0);
+
+	return 0;
+}

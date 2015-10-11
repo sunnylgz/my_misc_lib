@@ -129,3 +129,69 @@ int bubble_sort(int *pArr, int num) {
 
 	return 0;
 }
+
+////////////////heap related op//////////////////
+#define LEFT_LEAF(n) (2*(n)+1)
+#define RIGHT_LEAF(n) (2*(n)+2)
+extern void print_arr(int *pArr, int num);
+static void large_heap_adjust(int *, int, int);
+
+static void large_heap_create(int *pArr, int head, int num) {
+	if (head + 1 >= num) {
+		return;
+	}
+
+	if (RIGHT_LEAF(head) < num) {
+		large_heap_create(pArr, LEFT_LEAF(head), num);
+		large_heap_create(pArr, RIGHT_LEAF(head), num);
+		large_heap_adjust(pArr, head, num);
+
+	} else if (LEFT_LEAF(head) < num) {
+		if (pArr[head] < pArr[LEFT_LEAF(head)]) {
+			SWAP_INT(pArr[head], pArr[LEFT_LEAF(head)]);
+		}
+	}
+}
+
+static void large_heap_adjust(int *pArr, int head, int num) {
+	if (head + 1 >= num) {
+		return;
+	}
+
+	if (RIGHT_LEAF(head) < num) {
+		if (pArr[LEFT_LEAF(head)] > pArr[RIGHT_LEAF(head)]) {
+			if (pArr[head] < pArr[LEFT_LEAF(head)]) {
+				SWAP_INT(pArr[head], pArr[LEFT_LEAF(head)]);
+				large_heap_adjust(pArr, LEFT_LEAF(head), num);
+			}
+
+		} else {
+			if (pArr[head] < pArr[RIGHT_LEAF(head)]) {
+				SWAP_INT(pArr[head], pArr[RIGHT_LEAF(head)]);
+				large_heap_adjust(pArr, RIGHT_LEAF(head), num);
+			}
+
+		}
+	} else if (LEFT_LEAF(head) < num) {
+		if (pArr[head] < pArr[LEFT_LEAF(head)]) {
+			SWAP_INT(pArr[head], pArr[LEFT_LEAF(head)]);
+		}
+	}
+}
+
+int heap_sort(int *pArr, int num) {
+	CHECK_ARGS();
+
+	large_heap_create(pArr, 0, num);
+	printf("atfer creating heap\n");
+	print_arr(pArr, num);
+	SWAP_INT(pArr[0], pArr[num-1]);
+	while(--num > 1) {
+		large_heap_adjust(pArr, 0, num);
+		printf("atfer adjusting heap\n");
+		print_arr(pArr, num);
+		SWAP_INT(pArr[0], pArr[num-1]);
+	}
+
+	return 0;
+}

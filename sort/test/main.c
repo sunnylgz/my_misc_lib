@@ -1,11 +1,25 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <sys/time.h>
 #include <string.h>
 #include "sort.h"
 
-#define NUM 100
+#define NUM 10
 #define COL 16
+
+#define TIME_CALL(ret, fun) \
+	{						\
+		struct timeval start_time, end_time;	\
+		long long elapse_us;			\
+		gettimeofday(&start_time, NULL);	\
+		ret = fun;				\
+		gettimeofday(&end_time, NULL);		\
+		elapse_us = (end_time.tv_sec * 1e6 + end_time.tv_usec)		\
+			- (start_time.tv_sec * 1e6 + start_time.tv_usec);	\
+		printf("time elapse: %lld s %lld us\n", elapse_us / 1000000,	\
+				elapse_us % 1000000);	\
+	}
 
 void print_arr(int *pArr, int num) {
 	int i;
@@ -31,6 +45,7 @@ int main() {
 	int init_arr[NUM];
 	int out_arr[NUM];
 	int i;
+	int ret;
 
 	srand(time(NULL));
 	for (i = 0; i < NUM; i++) {
@@ -43,19 +58,25 @@ int main() {
 	print_arr(out_arr, sizeof(out_arr)/sizeof(out_arr[0]));
 
 	printf("\n1. test quick sort\n");
-	quick_sort(out_arr, sizeof(out_arr)/sizeof(out_arr[0]));
+	TIME_CALL(ret, quick_sort(out_arr, sizeof(out_arr)/sizeof(out_arr[0])));
 	printf("after sorting, the array is:\n");
 	print_arr(out_arr, sizeof(out_arr)/sizeof(out_arr[0]));
 
 	printf("\n2. test insert sort\n");
 	memcpy(out_arr, init_arr, sizeof(init_arr));
-	insert_sort(out_arr, sizeof(out_arr)/sizeof(out_arr[0]));
+	TIME_CALL(ret, insert_sort(out_arr, sizeof(out_arr)/sizeof(out_arr[0])));
 	printf("after sorting, the array is:\n");
 	print_arr(out_arr, sizeof(out_arr)/sizeof(out_arr[0]));
 
 	printf("\n3. test bubble sort\n");
 	memcpy(out_arr, init_arr, sizeof(init_arr));
-	bubble_sort(out_arr, sizeof(out_arr)/sizeof(out_arr[0]));
+	TIME_CALL(ret, bubble_sort(out_arr, sizeof(out_arr)/sizeof(out_arr[0])));
+	printf("after sorting, the array is:\n");
+	print_arr(out_arr, sizeof(out_arr)/sizeof(out_arr[0]));
+
+	printf("\n4. test heap sort\n");
+	memcpy(out_arr, init_arr, sizeof(init_arr));
+	TIME_CALL(ret, heap_sort(out_arr, sizeof(out_arr)/sizeof(out_arr[0])));
 	printf("after sorting, the array is:\n");
 	print_arr(out_arr, sizeof(out_arr)/sizeof(out_arr[0]));
 

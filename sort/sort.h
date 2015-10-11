@@ -3,5 +3,6 @@
 int quick_sort(int *pArr, int num);
 int insert_sort(int *pArr, int num);
 int bubble_sort(int *pArr, int num);
+int heap_sort(int *pArr, int num);
 
 #endif // _SORT_H

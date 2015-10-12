@@ -37,5 +37,5 @@ $(libs):$(LIBS_C)
 	@if [ -e $@ ]; then echo [success] AR [$@] 1>> $(LIBS_LOG) 2>>$(LIBS_LOG); else echo [failed] AR [$@] 1>> $(LIBS_LOG) 2>>$(LIBS_LOG); fi
 
 $(app):$(libs) $(APP_C)
-	-$(LD) -o $@ $(libs) $(APP_C) $(USR_LIBS) $(LNFLAGS) 1>>$(APP_LOG) 2>>$(APP_LOG)
+	-$(LD) -o $@ $(APP_C) $(libs) $(USR_LIBS) $(LNFLAGS) 1>>$(APP_LOG) 2>>$(APP_LOG)
 	@if [ -e $@ ]; then echo [success] Link [$@] 1>>$(APP_LOG) 2>>$(APP_LOG); else echo [failed] Link [$@] 1>>$(APP_LOG) 2>>$(APP_LOG); fi

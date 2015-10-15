@@ -8,11 +8,11 @@ AR=ar
 #=============================================================================
 #           build options
 #=============================================================================
-D=n
-ifeq ($(D), y)
-CFLAGS= -O0 -g
-else
+D=0
+ifeq ($(D), 0)
 CFLAGS= -O3
+else
+CFLAGS= -O0 -g -D_DEBUG=$(D)
 endif
 CFLAGS += $(EXT_CFLAGS)
 ARFLAGS=

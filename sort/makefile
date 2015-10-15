@@ -25,6 +25,7 @@ OBJS_C := $(LIBS_C) $(APP_C)
 #			 compile options
 #=============================================================================
 OPT_INCLUDE+= \
+	-I $(PATH_ROOT)/include/ \
 	-I ./ \
 
 include ../Template.mk

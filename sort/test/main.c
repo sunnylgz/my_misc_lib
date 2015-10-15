@@ -50,5 +50,12 @@ int main() {
 	printf_arr_debug(out_arr, sizeof(out_arr)/sizeof(out_arr[0]));
 	fwrite_arr("heap_sort.txt", out_arr, sizeof(out_arr)/sizeof(out_arr[0]));
 
+	printf("\n5. test select sort\n");
+	memcpy(out_arr, init_arr, sizeof(init_arr));
+	TIME_CALL(ret, select_sort(out_arr, sizeof(out_arr)/sizeof(out_arr[0])));
+	TMP_LOGD("after sorting, the array is:\n");
+	printf_arr_debug(out_arr, sizeof(out_arr)/sizeof(out_arr[0]));
+	fwrite_arr("select_sort.txt", out_arr, sizeof(out_arr)/sizeof(out_arr[0]));
+
 	return 0;
 }

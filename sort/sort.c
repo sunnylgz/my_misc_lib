@@ -195,3 +195,26 @@ int heap_sort(int *pArr, int num) {
 
 	return 0;
 }
+
+int select_sort(int *pArr, int num) {
+	CHECK_ARGS();
+
+	do {
+		int i;
+		int max_val_idx = 0;
+
+		for (i = 1; i < num; i++) {
+			if (pArr[i] >= pArr[max_val_idx]) {
+				max_val_idx = i;
+			}
+		}
+
+		TMP_LOGV("the max value is the %d one %d\n", max_val_idx, pArr[max_val_idx]);
+		if(pArr[num-1] != pArr[max_val_idx]) {
+			SWAP_INT(pArr[num-1], pArr[max_val_idx]);
+		}
+		printf_arr_verbose(pArr, num);
+	} while(--num > 1);
+
+	return 0;
+}

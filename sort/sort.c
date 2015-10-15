@@ -7,7 +7,7 @@
 #define SWAP_INT(a, b) do {a = a ^ b; b = a ^ b; a = a ^ b;} while(0)
 #define CHECK_ARGS() \
 	if (pArr == NULL || num <= 1) {			\
-		printf("Error: Bad arguments\n");	\
+		TMP_LOGE("Bad arguments\n");	\
 		return -1;				\
 	}						\
 							\
@@ -64,7 +64,7 @@ static void quick_sort_internal(int *pArr, int num) {
 	}
 
 	if (i != j) { // can use assert()
-		printf("Error: %s: after separate larger&smaller, i should be equal to j\n", __FUNCTION__);
+		TMP_LOGE("after separate larger&smaller, i should be equal to j\n");
 		return;
 	}
 	pArr[i] = mid_val;
@@ -183,13 +183,13 @@ int heap_sort(int *pArr, int num) {
 	CHECK_ARGS();
 
 	large_heap_create(pArr, 0, num);
-	printf("atfer creating heap\n");
-	print_arr(pArr, num);
+	TMP_LOGV("atfer creating heap\n");
+	printf_arr_verbose(pArr, num);
+	TMP_LOGV("adjusting heap\n");
 	SWAP_INT(pArr[0], pArr[num-1]);
 	while(--num > 1) {
 		large_heap_adjust(pArr, 0, num);
-		printf("atfer adjusting heap\n");
-		print_arr(pArr, num);
+		printf_arr_verbose(pArr, num);
 		SWAP_INT(pArr[0], pArr[num-1]);
 	}
 

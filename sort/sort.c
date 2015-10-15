@@ -218,3 +218,49 @@ int select_sort(int *pArr, int num) {
 
 	return 0;
 }
+
+int count_sort(int *pArr, int num, int max) {
+	int i, j;
+	int *cnt_array = NULL;
+	CHECK_ARGS();
+
+	if (max < 0) {
+		TMP_LOGE("max value is negtive!\n");
+		return -1;
+	}
+
+	i = num - 1;
+	do {
+		if (pArr[i] < 0) {
+			TMP_LOGE("max value is negtive!\n");
+			return -1;
+		}
+	} while(--i >= 0);
+
+	cnt_array = (int *)malloc((max + 1) * sizeof(int));
+	if (!cnt_array) {
+		TMP_LOGE("allocate count array failed!\n");
+		return -1;
+	}
+
+	memset(cnt_array, 0, (max + 1) * sizeof(int));
+	i = num - 1;
+	do {
+		cnt_array[pArr[i]]++;
+	} while (--i >= 0);
+
+	for(i = 1; i < max+1; i++) {
+		cnt_array[i] += cnt_array[i-1];
+	}
+
+	i = 0;
+	j = 0;
+	do {
+		while(i < cnt_array[j]) {
+			pArr[i++] = j;
+		}
+		j++;
+	} while(i < num && j < max + 1);
+	free(cnt_array);
+	return 0;
+}

@@ -58,5 +58,12 @@ int main() {
 	printf_arr_debug(out_arr, sizeof(out_arr)/sizeof(out_arr[0]));
 	fwrite_arr("select_sort.txt", out_arr, sizeof(out_arr)/sizeof(out_arr[0]));
 
+	printf("\n6. test count sort\n");
+	memcpy(out_arr, init_arr, sizeof(init_arr));
+	TIME_CALL(ret, count_sort(out_arr, sizeof(out_arr)/sizeof(out_arr[0]), NUM));
+	TMP_LOGD("after sorting, the array is:\n");
+	printf_arr_debug(out_arr, sizeof(out_arr)/sizeof(out_arr[0]));
+	fwrite_arr("count_sort.txt", out_arr, sizeof(out_arr)/sizeof(out_arr[0]));
+
 	return 0;
 }

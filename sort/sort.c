@@ -15,6 +15,33 @@
 		return 0;				\
 	}
 
+// return val:
+//		1: the intput array is sorted
+//		0: the input array is not sorted
+//		-1: bad arguments
+int check_sorted_arr(TDataType *pArr, int num) {
+	int i, ret = 1;
+
+	if(pArr == NULL || num <= 1) {
+		TMP_LOGE("Bad arguments\n");
+		return -1;
+	}
+
+	for (i = 0; i < num-1; i++) {
+		if (CMP_GT(pArr[i], pArr[i+1])) {
+			TMP_LOGE("the array is not sorted, [%d] %d is greater than [%d] %d!\n",
+									i, pArr[i], i+1, pArr[i+1]);
+			ret = 0;
+			break;
+		}
+	}
+
+	if (ret) {
+		TMP_LOGI("the array is already sorted!\n");
+	}
+
+	return ret;
+}
 
 // the inline function to sort arrays length = 2
 static inline void sort_2_num(TDataType *pArr) {

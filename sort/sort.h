@@ -3,6 +3,12 @@
 
 #include "common.h"
 
+// function: check_sorted_arr()
+// return val:
+//		1: the intput array is sorted
+//		0: the input array is not sorted
+//		-1: bad arguments
+int check_sorted_arr(TDataType *pArr, int num);
 // unstable sort、In-place sort, O(nlogn)
 int quick_sort(TDataType *pArr, int num);
 //int merge_sort(int *pArr, int num);

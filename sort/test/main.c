@@ -8,8 +8,8 @@
 #define NUM 1000
 
 int main() {
-	int init_arr[NUM];
-	int out_arr[NUM];
+	TDataType init_arr[NUM];
+	TDataType out_arr[NUM];
 	int i;
 	int ret;
 

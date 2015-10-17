@@ -33,9 +33,23 @@
   #endif
 #endif // _DEBUG
 
+// type & op related to data type
+typedef int TDataType;
+
+#define CMP_LT(x, y) ((x) < (y))
+#define CMP_LE(x, y) ((x) <= (y))
+#define CMP_GT(x, y) ((x) > (y))
+#define CMP_GE(x, y) ((x) >= (y))
+#define CMP_NE(x, y) ((x) != (y))
+#define IS_POS(x) ((x) > 0)
+#define IS_NEG(x) ((x) < 0)
+#define EXTRACT_IDX(x) (x)				// extract the index of element that can be compared
+
+#define SWAP_VAL(a, b) do {a = a ^ b; b = a ^ b; a = a ^ b;} while(0)
+
 // debuging functions
 #define COL 16	// print array as 16 elements a row
-static void print_arr(int *pArr, int num) {
+static void print_arr(TDataType *pArr, int num) {
 	int i;
 
 	for (i = 0; i < num/COL; i++) {
@@ -55,7 +69,7 @@ static void print_arr(int *pArr, int num) {
 	}
 }
 
-static void fwrite_arr(const char *fname, int *pArr, int num) {
+static void fwrite_arr(const char *fname, TDataType *pArr, int num) {
 	FILE *file_handle;
 	int i;
 

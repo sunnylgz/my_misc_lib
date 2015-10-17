@@ -217,9 +217,18 @@ int select_sort(TDataType *pArr, int num) {
 	return 0;
 }
 
+// will record the count of each items and save the values to list array,
+// and then output the lists to the original array according to the count.
 int count_sort(TDataType *pArr, int num, int max) {
+	typedef struct _S {
+		TDataType val;
+		struct _S *pNext;
+	} s_listNode, *ps_listNode;
+
 	int i, j;
+	int ret = 0;
 	int *cnt_array = NULL;
+	s_listNode *item_array = NULL; // save the items to a list array, coresponding to count array
 	CHECK_ARGS();
 
 	if (max < 0) {
@@ -236,15 +245,34 @@ int count_sort(TDataType *pArr, int num, int max) {
 	} while(--i >= 0);
 
 	cnt_array = (int *)malloc((max + 1) * sizeof(int));
-	if (!cnt_array) {
+	item_array = (s_listNode*)malloc((max + 1) * sizeof(*item_array));
+	if (!cnt_array || !item_array) {
 		TMP_LOGE("allocate count array failed!\n");
-		return -1;
+		ret = -1;
+		goto _return_cleanup;
 	}
 
 	memset(cnt_array, 0, (max + 1) * sizeof(int));
+	memset(item_array, 0, (max + 1) * sizeof(*item_array));
 	i = num - 1;
 	do {
+		ps_listNode pHead;
 		cnt_array[EXTRACT_IDX(pArr[i])]++;
+		pHead = &item_array[EXTRACT_IDX(pArr[i])];
+
+		while (pHead->pNext) {
+			pHead = pHead->pNext;
+		}
+		pHead->pNext = (ps_listNode)malloc(sizeof(*pHead));
+		pHead = pHead->pNext;
+		TMP_LOGD("allocate a node: %p\n", pHead);
+		if (!pHead) {
+			TMP_LOGE("allocate item list node failed!\n");
+			ret = -1;
+			goto _return_cleanup;
+		}
+		pHead->val = pArr[i];
+		pHead->pNext = NULL;
 	} while (--i >= 0);
 
 	for(i = 1; i < max+1; i++) {
@@ -254,11 +282,28 @@ int count_sort(TDataType *pArr, int num, int max) {
 	i = 0;
 	j = 0;
 	do {
-		while(i < cnt_array[j]) {
-			pArr[i++] = j;
+		ps_listNode pHead = item_array[j].pNext;
+		while(i < cnt_array[j] && pHead) {
+			ps_listNode pTempHead = pHead;
+			pArr[i++] = pHead->val;
+			pHead = pHead->pNext;
 		}
 		j++;
 	} while(i < num && j < max + 1);
+
+_return_cleanup:
+	if(item_array) {
+		for (i = 0; i < max + 1; i++) {
+			ps_listNode pHead = item_array[i].pNext;
+			while(pHead) {
+				ps_listNode pTempHead = pHead;
+				pHead = pHead->pNext;
+				TMP_LOGD("free a node: %p\n", pTempHead);
+				free(pTempHead);
+			}
+		}
+	}
 	free(cnt_array);
-	return 0;
+	free(item_array);
+	return ret;
 }

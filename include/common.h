@@ -94,6 +94,10 @@ static void fwrite_arr(const char *fname, TDataType *pArr, int num) {
 	TMP_LOGI("write array to %s\n", fname);
 }
 
+static inline void print_val(TDataType x) {
+	printf("%8d", x);
+}
+
 #define printf_arr_debug(...)
 #define printf_arr_verbose(...)
 #ifdef _DEBUG
